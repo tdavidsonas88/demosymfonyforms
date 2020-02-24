@@ -54,4 +54,9 @@ class DemoSymfonyForms extends Module
     {
         return parent::uninstall();
     }
+
+    public function hookActionSupplierFormBuilderModifier()
+    {
+        return 'Supplier form hook works';
+    }
 }
