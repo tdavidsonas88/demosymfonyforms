@@ -47,15 +47,7 @@ class DemoSymfonyForms extends Module
 
     public function install()
     {
-        if (!parent::install()) {
-            return false;
-        }
-        $this->registerHooks();
-    }
-
-    private function registerHooks()
-    {
-        $this->registerHook('actionSupplierFormBuilderModifier');
+        return parent::install() && $this->registerHook('actionSupplierFormBuilderModifier');
     }
 
     public function uninstall()
