@@ -8,7 +8,7 @@
     ],
     "autoload": {
       "psr-4": {
-        "PrestaShop\\Module\\DemoViewOrderHooks\\": "src/"
+        "PrestaShop\\Module\\DemoSymfonyForms\\": "src/"
       }
     },
     "require-dev": {
