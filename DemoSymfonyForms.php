@@ -44,4 +44,22 @@ class DemoSymfonyForms extends Module
         $this->displayName = $this->l('Demo Symfony Forms');
         $this->description = $this->l('Demonstration of how to insert an inputs inside the Symfony form');
     }
+
+    public function install()
+    {
+        if (!parent::install()) {
+            return false;
+        }
+        $this->registerHooks();
+    }
+
+    private function registerHooks()
+    {
+        $this->registerHook('actionSupplierFormBuilderModifier');
+    }
+
+    public function uninstall()
+    {
+        return parent::uninstall();
+    }
 }
