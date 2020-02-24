@@ -32,5 +32,16 @@ if (!defined('_PS_VERSION_')) {
 
 class DemoSymfonyForms extends Module
 {
+    public function __construct()
+    {
+        $this->name = 'demosymfonyforms';
+        $this->author = 'PrestaShop';
+        $this->version = '1.0.0';
+        $this->ps_versions_compliancy = ['min' => '1.7.7.0', 'max' => _PS_VERSION_];
 
+        parent::__construct();
+
+        $this->displayName = $this->l('Demo Symfony Forms');
+        $this->description = $this->l('Demonstration of how to insert an inputs inside the Symfony form');
+    }
 }
