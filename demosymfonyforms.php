@@ -30,7 +30,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-class DemoSymfonyForms extends Module
+class demosymfonyforms extends Module
 {
     public function __construct()
     {
