@@ -26,6 +26,9 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormBuilderInterface;
+
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -57,6 +60,11 @@ class demosymfonyforms extends Module
 
     public function hookActionSupplierFormBuilderModifier(array $params)
     {
-        return 'Supplier form hook works';
+        /** @var FormBuilderInterface $formBuilder */
+        $formBuilder = $params['form_builder'];
+        $formBuilder->add('upload_file', FileType::class, [
+            'label' => $this->getTranslator()->trans('Upload file', [], 'Modules.DemoSymfonyForms'),
+            'required' => false,
+        ]);
     }
 }

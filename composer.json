@@ -10,8 +10,5 @@
       "psr-4": {
         "PrestaShop\\Module\\DemoSymfonyForms\\": "src/"
       }
-    },
-    "require-dev": {
-        "prestashop/php-dev-tools": "^2.2"
     }
 }
