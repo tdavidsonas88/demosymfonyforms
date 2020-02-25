@@ -26,8 +26,11 @@
 
 declare(strict_types=1);
 
+use PrestaShop\PrestaShop\Adapter\Image\Uploader\SupplierImageUploader;
+use PrestaShop\PrestaShop\Core\Image\Uploader\ImageUploaderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -35,6 +38,11 @@ if (!defined('_PS_VERSION_')) {
 
 class demosymfonyforms extends Module
 {
+    /**
+     * @var ImageUploaderInterface
+     */
+    private $supplierImageUploader;
+
     public function __construct()
     {
         $this->name = 'demosymfonyforms';
@@ -46,6 +54,8 @@ class demosymfonyforms extends Module
 
         $this->displayName = $this->l('Demo Symfony Forms');
         $this->description = $this->l('Demonstration of how to insert an inputs inside the Symfony form');
+
+        $this->supplierImageUploader = new SupplierImageUploader();
     }
 
     public function install()
@@ -70,8 +80,13 @@ class demosymfonyforms extends Module
         ]);
     }
 
-    public function hookActionAfterUpdateSupplierFormHandler(array $params)
+    public function hookActionAfterUpdateSupplierFormHandler(array $data)
     {
-        die('hook actionAfterUpdateSupplierFormHandler works');
+        /** @var UploadedFile $uploadedFile */
+        $uploadedFile = $data['form_data']['upload_file'];
+
+        if ($uploadedFile instanceof UploadedFile) {
+            $this->supplierImageUploader->upload($data['id'], $uploadedFile);
+        }
     }
 }
