@@ -31,7 +31,6 @@ namespace PrestaShop\Module\DemoSymfonyForms\Uploader;
 use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\ImageOptimizationException;
 use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\ImageUploadException;
 use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\MemoryLimitException;
-use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\UploadedImageConstraintException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SupplierSecondImageUploader
@@ -40,28 +39,9 @@ class SupplierSecondImageUploader
 
     public function upload($supplierId, UploadedFile $image)
     {
-        $this->checkImageIsAllowedForUpload($image);
         $tempImageName = $this->createTemporaryImage($image);
-
         $destination = _PS_SUPP_IMG_DIR_ . self::SECOND_IMAGE . $supplierId . '.jpg';
         $this->uploadFromTemp($tempImageName, $destination);
-    }
-
-    /**
-     * Check if image is allowed to be uploaded.
-     *
-     * @param UploadedFile $image
-     *
-     * @throws UploadedImageConstraintException
-     */
-    protected function checkImageIsAllowedForUpload(UploadedFile $image)
-    {
-        if (!\ImageManager::isRealImage($image->getPathname(), $image->getClientMimeType())
-            || !\ImageManager::isCorrectImageFileExt($image->getClientOriginalName())
-            || preg_match('/\%00/', $image->getClientOriginalName()) // prevent null byte injection
-        ) {
-            throw new UploadedImageConstraintException(sprintf('Image format "%s", not recognized, allowed formats are: .gif, .jpg, .png', $image->getClientOriginalExtension()), UploadedImageConstraintException::UNRECOGNIZED_FORMAT);
-        }
     }
 
     /**

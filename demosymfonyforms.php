@@ -80,6 +80,8 @@ class demosymfonyforms extends Module
             'required' => false,
             'constraints' => [
                 new Assert\File(['maxSize' => Configuration::get('PS_ATTACHMENT_MAXIMUM_SIZE') . 'M']),
+                'mimeTypes' => ['image/png', 'image/jpg', 'image/gif', 'image/jpeg',],
+                'mimeTypesMessage' => 'Authorized extensions: gif, jpg, jpeg, png',
             ],
         ]);
     }
