@@ -56,12 +56,6 @@ class SupplierSecondImageUploader
      */
     protected function checkImageIsAllowedForUpload(UploadedFile $image)
     {
-        $maxFileSize = \Tools::getMaxUploadSize();
-
-        if ($maxFileSize > 0 && $image->getSize() > $maxFileSize) {
-            throw new UploadedImageConstraintException(sprintf('Max file size allowed is "%s" bytes. Uploaded image size is "%s".', $maxFileSize, $image->getSize()), UploadedImageConstraintException::EXCEEDED_SIZE);
-        }
-
         if (!\ImageManager::isRealImage($image->getPathname(), $image->getClientMimeType())
             || !\ImageManager::isCorrectImageFileExt($image->getClientOriginalName())
             || preg_match('/\%00/', $image->getClientOriginalName()) // prevent null byte injection

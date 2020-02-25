@@ -31,6 +31,7 @@ use PrestaShop\PrestaShop\Core\Image\Uploader\ImageUploaderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -77,16 +78,20 @@ class demosymfonyforms extends Module
         $formBuilder->add('upload_file', FileType::class, [
             'label' => $this->getTranslator()->trans('Upload file', [], 'Modules.DemoSymfonyForms'),
             'required' => false,
+            'constraints' => [
+                new Assert\File(['maxSize' => Configuration::get('PS_ATTACHMENT_MAXIMUM_SIZE') . 'M']),
+            ],
         ]);
     }
 
-    public function hookActionAfterUpdateSupplierFormHandler(array $data)
+    public function hookActionAfterUpdateSupplierFormHandler(array $params)
     {
         /** @var UploadedFile $uploadedFile */
-        $uploadedFile = $data['form_data']['upload_file'];
+        $uploadedFile = $params['form_data']['upload_file'];
 
         if ($uploadedFile instanceof UploadedFile) {
-            $this->supplierSecondImageUploader->upload($data['id'], $uploadedFile);
+            $this->supplierSecondImageUploader->upload($params['id'], $uploadedFile);
         }
     }
+
 }
