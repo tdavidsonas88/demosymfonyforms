@@ -73,10 +73,11 @@ class demosymfonyforms extends Module
 
     public function hookActionSupplierFormBuilderModifier(array $params)
     {
+        $translator = $this->getTranslator();
         /** @var FormBuilderInterface $formBuilder */
         $formBuilder = $params['form_builder'];
         $formBuilder->add('upload_file', FileType::class, [
-            'label' => $this->getTranslator()->trans('Upload file', [], 'Modules.DemoSymfonyForms'),
+            'label' => $translator->trans('Upload file', [], 'Modules.DemoSymfonyForms'),
             'required' => false,
             'constraints' => [
                 new Assert\File(['maxSize' => Configuration::get('PS_ATTACHMENT_MAXIMUM_SIZE') . 'M']),
