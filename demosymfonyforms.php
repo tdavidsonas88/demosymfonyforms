@@ -50,7 +50,9 @@ class demosymfonyforms extends Module
 
     public function install()
     {
-        return parent::install() && $this->registerHook('actionSupplierFormBuilderModifier');
+        return parent::install()
+            && $this->registerHook('actionSupplierFormBuilderModifier')
+            && $this->registerHook('actionAfterUpdateSupplierFormHandler');
     }
 
     public function uninstall()
@@ -66,5 +68,10 @@ class demosymfonyforms extends Module
             'label' => $this->getTranslator()->trans('Upload file', [], 'Modules.DemoSymfonyForms'),
             'required' => false,
         ]);
+    }
+
+    public function hookActionAfterUpdateSupplierFormHandler(array $params)
+    {
+        die('hook actionAfterUpdateSupplierFormHandler works');
     }
 }
