@@ -32,6 +32,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\File;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -80,9 +81,11 @@ class demosymfonyforms extends Module
             'label' => $translator->trans('Upload file', [], 'Modules.DemoSymfonyForms'),
             'required' => false,
             'constraints' => [
-                new Assert\File(['maxSize' => Configuration::get('PS_ATTACHMENT_MAXIMUM_SIZE') . 'M']),
-                'mimeTypes' => ['image/png', 'image/jpg', 'image/gif', 'image/jpeg',],
-                'mimeTypesMessage' => 'Authorized extensions: gif, jpg, jpeg, png',
+                new Assert\File(['maxSize' => (int) Configuration::get('PS_ATTACHMENT_MAXIMUM_SIZE') . 'M']),
+                new File([
+                    'mimeTypes' => ['image/png', 'image/jpg', 'image/gif', 'image/jpeg',],
+                    'mimeTypesMessage' => 'Authorized extensions: gif, jpg, jpeg, png',
+                ]),
             ],
         ]);
     }
