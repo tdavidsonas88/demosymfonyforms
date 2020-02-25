@@ -26,7 +26,7 @@
 
 declare(strict_types=1);
 
-use PrestaShop\PrestaShop\Adapter\Image\Uploader\SupplierImageUploader;
+use PrestaShop\Module\DemoSymfonyForms\Uploader\SupplierSecondImageUploader;
 use PrestaShop\PrestaShop\Core\Image\Uploader\ImageUploaderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,7 +41,7 @@ class demosymfonyforms extends Module
     /**
      * @var ImageUploaderInterface
      */
-    private $supplierImageUploader;
+    private $supplierSecondImageUploader;
 
     public function __construct()
     {
@@ -55,7 +55,7 @@ class demosymfonyforms extends Module
         $this->displayName = $this->l('Demo Symfony Forms');
         $this->description = $this->l('Demonstration of how to insert an inputs inside the Symfony form');
 
-        $this->supplierImageUploader = new SupplierImageUploader();
+        $this->supplierSecondImageUploader = new SupplierSecondImageUploader();
     }
 
     public function install()
@@ -86,7 +86,7 @@ class demosymfonyforms extends Module
         $uploadedFile = $data['form_data']['upload_file'];
 
         if ($uploadedFile instanceof UploadedFile) {
-            $this->supplierImageUploader->upload($data['id'], $uploadedFile);
+            $this->supplierSecondImageUploader->upload($data['id'], $uploadedFile);
         }
     }
 }
