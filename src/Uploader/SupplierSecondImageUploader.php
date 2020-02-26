@@ -35,12 +35,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SupplierSecondImageUploader
 {
-    private const SECOND_IMAGE = 'second';
+    const EXTRA_IMAGE_NAME = 'extra';
 
     public function upload($supplierId, UploadedFile $image)
     {
         $tempImageName = $this->createTemporaryImage($image);
-        $destination = _PS_SUPP_IMG_DIR_ . self::SECOND_IMAGE . $supplierId . '.jpg';
+        $destination = _PS_SUPP_IMG_DIR_. self::EXTRA_IMAGE_NAME . $supplierId . '.jpg';
         $this->uploadFromTemp($tempImageName, $destination);
     }
 

@@ -29,6 +29,7 @@ declare(strict_types=1);
 use PrestaShop\Module\DemoSymfonyForms\Uploader\SupplierSecondImageUploader;
 use PrestaShop\PrestaShop\Core\Image\Uploader\ImageUploaderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,6 +41,8 @@ if (!defined('_PS_VERSION_')) {
 
 class demosymfonyforms extends Module
 {
+    const SUPPLIER_EXTRA_IMAGE_PATH = '/img/su/'.SupplierSecondImageUploader::EXTRA_IMAGE_NAME;
+
     /**
      * @var ImageUploaderInterface
      */
@@ -77,16 +80,21 @@ class demosymfonyforms extends Module
         $translator = $this->getTranslator();
         /** @var FormBuilderInterface $formBuilder */
         $formBuilder = $params['form_builder'];
-        $formBuilder->add('upload_file', FileType::class, [
-            'label' => $translator->trans('Upload file', [], 'Modules.DemoSymfonyForms'),
-            'required' => false,
-            'constraints' => [
-                new Assert\File(['maxSize' => (int) Configuration::get('PS_ATTACHMENT_MAXIMUM_SIZE') . 'M']),
-                new File([
-                    'mimeTypes' => ['image/png', 'image/jpg', 'image/gif', 'image/jpeg',],
-                    'mimeTypesMessage' => 'Authorized extensions: gif, jpg, jpeg, png',
-                ]),
-            ],
+        $formBuilder
+            ->add('webPath', HiddenType::class, [
+                'data' => self::SUPPLIER_EXTRA_IMAGE_PATH .  $params['id'] . '.jpg',
+            ])
+            ->add('upload_file', FileType::class, [
+                'label' => $translator->trans('Upload file', [], 'Modules.DemoSymfonyForms'),
+                'required' => false,
+                'constraints' => [
+                    new Assert\File(['maxSize' => (int) Configuration::get('PS_ATTACHMENT_MAXIMUM_SIZE') . 'M']),
+                    new File([
+                        'mimeTypes' => ['image/png', 'image/jpg', 'image/gif', 'image/jpeg'],
+                        'mimeTypesMessage' => 'Authorized extensions: gif, jpg, jpeg, png',
+                    ]),
+                ],
+                'image_property' => 'webPath',
         ]);
     }
 
